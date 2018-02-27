@@ -1,0 +1,40 @@
+{
+	"name": "streamed",
+	"description": "Array-like stream",
+	"version": "0.1.0",
+	"license": "MIT",
+	"author": "Constantine Genchevsky <const.gen@gmail.com>",
+	"main": "dist/streamed.js",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/constgen/streamed.git"
+	},
+	"homepage": "https://github.com/constgen/streamed",
+	"keywords": [
+		"stream"
+	],
+	"dependencies": {	},
+	"devDependencies": {
+		"neutrino": "8.1.2",
+		"neutrino-preset-umd": "0.3.0",
+		"neutrino-preset-eslintrc": "0.1.0",
+		"@neutrinojs/jest": "8.1.2"
+	},
+	"scripts": {
+		"build": "neutrino build",
+		"start": "neutrino start",
+		"test": "neutrino test --verbose",
+		"lint": "neutrino lint"
+	},
+	"files": [
+		"src/*",
+		"dist/*",
+		"README.md",
+		"LICENSE",
+		"package.json"
+	],
+	"engines": {
+		"node": ">=0.10.0",
+		"npm": ">=3.0.0"
+	}
+}
