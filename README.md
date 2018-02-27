@@ -1,0 +1,2 @@
+# streamed
+Array-like stream
