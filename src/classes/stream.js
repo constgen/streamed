@@ -39,10 +39,17 @@ module.exports = inherit(List, {
 	},
 	onopen: noop,
 	onclose: noop,
-	_push: List.prototype.push,
+	_inheritedPush: List.prototype.push,
 	push: function (value) {
 		var tail
-		this._push(value)
+		var i = -1
+		if (arguments.length > 1) {
+			while (++i in arguments) {
+				this.push(arguments[i])
+			}
+			return
+		}
+		this._inheritedPush(value)
 		tail = this.tail
 		if (this.length > this.bufferLength) {
 			this.shift()

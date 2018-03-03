@@ -154,7 +154,7 @@ describe('Stream', function () {
 			expect(callback2).toHaveBeenCalledTimes(4)
 			expect(callback3).toHaveBeenCalledTimes(4)
 		})
-		it('performed on pushing with value', function () {
+		it('performed on pushing with a value', function () {
 			var item = expect.objectContaining({
 				value: value1
 			})
@@ -162,6 +162,23 @@ describe('Stream', function () {
 			expect(callback1).toHaveBeenLastCalledWith(item)
 			expect(callback2).toHaveBeenLastCalledWith(item)
 			expect(callback3).toHaveBeenLastCalledWith(item)
+		})
+		it('performed on pushing multiple values', function () {
+			var calls = expect.arrayContaining([
+				[expect.objectContaining({
+					value: value1
+				})],
+				[expect.objectContaining({
+					value: value2
+				})],
+				[expect.objectContaining({
+					value: value3
+				})]
+			])
+			stream.push(value1, value2, value3)
+			expect(callback1.mock.calls).toEqual(calls)
+			expect(callback2.mock.calls).toEqual(calls)
+			expect(callback3.mock.calls).toEqual(calls)
 		})
 	})
 
