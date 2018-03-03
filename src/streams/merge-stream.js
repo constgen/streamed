@@ -1,6 +1,6 @@
 'use strict'
 
-var Stream = require('./stream')
+var Stream = require('../classes/stream')
 var inherit = require('../utils/inherit')
 
 module.exports = inherit(Stream, {

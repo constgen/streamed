@@ -59,6 +59,23 @@ describe('Stream', function () {
 			expect(stream.onopen).not.toHaveBeenCalled()
 			expect(stream.onclose).not.toHaveBeenCalled()
 		})
+		it('can be performed with a predefined length', function () {
+			var length = 5
+			stream = new Stream(length)
+			expect(stream.bufferLength).toEqual(length)
+		})
+		it('can be performed with an invalid length', function () {
+			stream = new Stream(null)
+			expect(stream.bufferLength).toEqual(0)
+		})
+		it('can be performed with a negative length', function () {
+			stream = new Stream(-5)
+			expect(stream.bufferLength).toEqual(0)
+		})
+		it('can be performed with an Infinite length', function () {
+			stream = new Stream(Infinity)
+			expect(stream.bufferLength).toBe(Infinity)
+		})
 	})
 
 	describe('subscription', function () {
@@ -198,6 +215,11 @@ describe('Stream', function () {
 			stream.forEach(callback2)
 			expect(callback1).not.toHaveBeenCalled()
 		})
+		it('throws error if invalid callback passed', function () {
+			expect(function(){
+				stream.forEach({})
+			}).toThrow(expect.any(TypeError))
+		})
 	})
 
 	describe('`buffer` method', function () {
@@ -285,6 +307,11 @@ describe('Stream', function () {
 			stream.map(callback2).subscribe(new Stream())
 			expect(callback1).not.toHaveBeenCalled()
 		})
+		it('throws error if invalid callback passed', function () {
+			expect(function(){
+				stream.map({})
+			}).toThrow(expect.any(TypeError))
+		})
 	})
 
 	describe('`filter` method', function () {
@@ -338,6 +365,11 @@ describe('Stream', function () {
 			callback2.mockClear()
 			stream.filter(callback3).subscribe(new Stream())
 			expect(callback2).not.toHaveBeenCalled()
+		})
+		it('throws error if invalid callback passed', function () {
+			expect(function(){
+				stream.filter({})
+			}).toThrow(expect.any(TypeError))
 		})
 	})
 
@@ -467,6 +499,12 @@ describe('Stream', function () {
 				expect(callback3).not.toHaveBeenCalled()
 			})
 		})
+
+		it('throws error if invalid callback passed', function () {
+			expect(function(){
+				stream.reduce({})
+			}).toThrow(expect.any(TypeError))
+		})
 	})
 
 	describe('`merge` method', function () {
@@ -532,6 +570,11 @@ describe('Stream', function () {
 		it('sums lengths', function () {
 			expect(mergedStream.bufferLength).toEqual(6)
 		})
+		it('throws error if invalid stream passed', function () {
+			expect(function(){
+				stream.merge({})
+			}).toThrow(expect.any(TypeError))
+		})
 	})
 
 	describe('piping', function () {
@@ -582,6 +625,16 @@ describe('Stream', function () {
 			stream.unpipe(writableStream)
 			stream.push(1)
 			expect(callback1).not.toHaveBeenCalled()
+		})
+		it('throws error if invalid stream piped', function () {
+			expect(function(){
+				stream.pipe({})
+			}).toThrow(expect.any(TypeError))
+		})
+		it('throws error if invalid stream unpiped', function () {
+			expect(function(){
+				stream.unpipe({})
+			}).toThrow(expect.any(TypeError))
 		})
 	})
 

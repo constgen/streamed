@@ -2,7 +2,9 @@
 
 var List = require('./list')
 var noop = require('../utils/noop')
+var isNotFunction = require('../utils/is-not-function')
 var inherit = require('../utils/inherit')
+var toNaturalNumber = require('../utils/to-natural-number')
 
 var EachStream
 var MapStream
@@ -11,17 +13,28 @@ var BufferStream
 var ReduceStream
 var MergeStream
 
+function notFunctionError(value) {
+	return new TypeError(value + ' is not a function')
+}
+function notStreamError(value) {
+	return new TypeError(value + ' is not an instance of Streamed')
+}
+
+function isNotInstanceOfStream(value) {
+	return !(value instanceof module.exports)
+}
+
 module.exports = inherit(List, {
 	constructor: function Stream(bufferLength) {
 		// to avoid a circular dependency
-		EachStream = EachStream || require('./each-stream')
-		MapStream = MapStream || require('./map-stream')
-		FilterStream = FilterStream || require('./filter-stream')
-		BufferStream = BufferStream || require('./buffer-stream')
-		ReduceStream = ReduceStream || require('./reduce-stream')
-		MergeStream = MergeStream || require('./merge-stream')
+		EachStream = EachStream || require('../streams/each-stream')
+		MapStream = MapStream || require('../streams/map-stream')
+		FilterStream = FilterStream || require('../streams/filter-stream')
+		BufferStream = BufferStream || require('../streams/buffer-stream')
+		ReduceStream = ReduceStream || require('../streams/reduce-stream')
+		MergeStream = MergeStream || require('../streams/merge-stream')
 		List.call(this)
-		this.bufferLength = Number(bufferLength) || 0
+		this.bufferLength = toNaturalNumber(bufferLength)
 		this.subscribers = []
 	},
 	onopen: noop,
@@ -79,21 +92,39 @@ module.exports = inherit(List, {
 		return new BufferStream(this, length)
 	},
 	map: function (callback) {
+		if (isNotFunction(callback)) {
+			throw notFunctionError(callback)
+		}
 		return new MapStream(this, callback)
 	},
 	forEach: function (callback) {
+		if (isNotFunction(callback)) {
+			throw notFunctionError(callback)
+		}
 		return new EachStream(this, callback)
 	},
 	filter: function (callback) {
+		if (isNotFunction(callback)) {
+			throw notFunctionError(callback)
+		}
 		return new FilterStream(this, callback)
 	},
 	reduce: function (callback, initialValue) {
+		if (isNotFunction(callback)) {
+			throw notFunctionError(callback)
+		}
 		return new ReduceStream(this, callback, initialValue)
 	},
 	merge: function (stream) {
+		if (isNotInstanceOfStream(stream)) {
+			throw notStreamError(stream)
+		}
 		return new MergeStream(this, stream)
 	},
 	pipe: function (stream) {
+		if (isNotInstanceOfStream(stream)) {
+			throw notStreamError(stream)
+		}
 		this.iterate(function (item) {
 			stream.subscription(item)
 		})
@@ -101,6 +132,9 @@ module.exports = inherit(List, {
 		return stream
 	},
 	unpipe: function (stream) {
+		if (isNotInstanceOfStream(stream)) {
+			throw notStreamError(stream)
+		}
 		this.unsubscribe(stream)
 		return stream
 	}
