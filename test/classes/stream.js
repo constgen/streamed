@@ -233,7 +233,7 @@ describe('Stream', function () {
 			expect(callback1).not.toHaveBeenCalled()
 		})
 		it('throws error if invalid callback passed', function () {
-			expect(function(){
+			expect(function () {
 				stream.forEach({})
 			}).toThrow(expect.any(TypeError))
 		})
@@ -325,7 +325,7 @@ describe('Stream', function () {
 			expect(callback1).not.toHaveBeenCalled()
 		})
 		it('throws error if invalid callback passed', function () {
-			expect(function(){
+			expect(function () {
 				stream.map({})
 			}).toThrow(expect.any(TypeError))
 		})
@@ -384,7 +384,7 @@ describe('Stream', function () {
 			expect(callback2).not.toHaveBeenCalled()
 		})
 		it('throws error if invalid callback passed', function () {
-			expect(function(){
+			expect(function () {
 				stream.filter({})
 			}).toThrow(expect.any(TypeError))
 		})
@@ -518,7 +518,7 @@ describe('Stream', function () {
 		})
 
 		it('throws error if invalid callback passed', function () {
-			expect(function(){
+			expect(function () {
 				stream.reduce({})
 			}).toThrow(expect.any(TypeError))
 		})
@@ -588,7 +588,7 @@ describe('Stream', function () {
 			expect(mergedStream.bufferLength).toEqual(6)
 		})
 		it('throws error if invalid stream passed', function () {
-			expect(function(){
+			expect(function () {
 				stream.merge({})
 			}).toThrow(expect.any(TypeError))
 		})
@@ -644,12 +644,12 @@ describe('Stream', function () {
 			expect(callback1).not.toHaveBeenCalled()
 		})
 		it('throws error if invalid stream piped', function () {
-			expect(function(){
+			expect(function () {
 				stream.pipe({})
 			}).toThrow(expect.any(TypeError))
 		})
 		it('throws error if invalid stream unpiped', function () {
-			expect(function(){
+			expect(function () {
 				stream.unpipe({})
 			}).toThrow(expect.any(TypeError))
 		})
@@ -658,11 +658,11 @@ describe('Stream', function () {
 	describe('chain', function () {
 		it('is lazy when has no side effect', function () {
 			stream
-                .buffer(10)
-                .merge(new Stream())
-                .map(callback1)
-                .filter(callback2)
-                .reduce(callback3)
+				.buffer(10)
+				.merge(new Stream())
+				.map(callback1)
+				.filter(callback2)
+				.reduce(callback3)
 			stream.push(1)
 			stream.push(2)
 			stream.push(3)
@@ -674,12 +674,12 @@ describe('Stream', function () {
 		})
 		it('is iterated when has side effect', function () {
 			stream
-                .buffer(10)
-                .merge(new Stream())
-                .map(callback1)
-                .filter(callback2)
-                .reduce(callback3)
-                .forEach(function () { })
+				.buffer(10)
+				.merge(new Stream())
+				.map(callback1)
+				.filter(callback2)
+				.reduce(callback3)
+				.forEach(function () { })
 			stream.push(1)
 			stream.push(2)
 			stream.push(3)
@@ -690,32 +690,32 @@ describe('Stream', function () {
 		})
 		it('is not open when lazy', function () {
 			stream
-                .buffer(10)
-                .merge(new Stream())
-                .map(callback1)
-                .filter(callback2)
-                .reduce(callback3)
+				.buffer(10)
+				.merge(new Stream())
+				.map(callback1)
+				.filter(callback2)
+				.reduce(callback3)
 
 			expect(stream.onopen).not.toHaveBeenCalled()
 		})
 		it('is open when not lazy', function () {
 			stream
-                .buffer(10)
-                .merge(new Stream())
-                .map(callback1)
-                .filter(callback2)
-                .reduce(callback3)
-                .forEach(function () { })
+				.buffer(10)
+				.merge(new Stream())
+				.map(callback1)
+				.filter(callback2)
+				.reduce(callback3)
+				.forEach(function () { })
 
 			expect(stream.onopen).toHaveBeenCalled()
 		})
 		it('is closed when side effect is unsubscribed', function () {
 			var chainStream = stream
-                .buffer(10)
-                .merge(new Stream())
-                .map(callback1)
-                .filter(callback2)
-                .reduce(callback3)
+				.buffer(10)
+				.merge(new Stream())
+				.map(callback1)
+				.filter(callback2)
+				.reduce(callback3)
 
 			var eachStream = chainStream.forEach(function () { })
 
@@ -725,11 +725,11 @@ describe('Stream', function () {
 		})
 		it('is open when piped', function () {
 			var chainStream = stream
-                .buffer(10)
-                .merge(new Stream())
-                .map(callback1)
-                .filter(callback2)
-                .reduce(callback3)
+				.buffer(10)
+				.merge(new Stream())
+				.map(callback1)
+				.filter(callback2)
+				.reduce(callback3)
 			var childStream = new Stream()
 
 			chainStream.pipe(childStream)
@@ -738,11 +738,11 @@ describe('Stream', function () {
 		})
 		it('is closed when unpiped', function () {
 			var chainStream = stream
-                .buffer(10)
-                .merge(new Stream())
-                .map(callback1)
-                .filter(callback2)
-                .reduce(callback3)
+				.buffer(10)
+				.merge(new Stream())
+				.map(callback1)
+				.filter(callback2)
+				.reduce(callback3)
 			var childStream = new Stream()
 
 			chainStream.pipe(childStream)
@@ -754,14 +754,14 @@ describe('Stream', function () {
 			var calls = []
 			stream = new Stream(3)
 			stream
-                .map(function () { calls.push(1) })
-                .filter(function () { calls.push(2); return true })
-                .forEach(function () { calls.push(3) })
+				.map(function () { calls.push(1) })
+				.filter(function () { calls.push(2); return true })
+				.forEach(function () { calls.push(3) })
 			stream.push(value1)
 			stream.push(value2)
 			stream.push(value3)
 
-			expect(calls).toEqual([1, 2, 3, 1, 2, 3,  1, 2, 3])
+			expect(calls).toEqual([1, 2, 3, 1, 2, 3, 1, 2, 3])
 		})
 		it('iteration is transduced on buffered data', function () {
 			var calls = []
@@ -770,9 +770,9 @@ describe('Stream', function () {
 			stream.push(value2)
 			stream.push(value3)
 			stream
-                .map(function () { calls.push(1) })
-                .filter(function () { calls.push(2); return true })
-                .forEach(function () { calls.push(3) })
+				.map(function () { calls.push(1) })
+				.filter(function () { calls.push(2); return true })
+				.forEach(function () { calls.push(3) })
 
 			expect(calls).toEqual([1, 2, 3, 1, 2, 3, 1, 2, 3])
 		})
@@ -783,9 +783,9 @@ describe('Stream', function () {
 			stream.push(value2)
 			stream.push(value3)
 			stream
-                .forEach(function () { calls.push(1) })
-                .forEach(function () { calls.push(2) })
-                .forEach(function () { calls.push(3) })
+				.forEach(function () { calls.push(1) })
+				.forEach(function () { calls.push(2) })
+				.forEach(function () { calls.push(3) })
 
 			expect(calls).toEqual([1, 1, 1, 2, 2, 2, 3, 3, 3])
 		})
@@ -796,10 +796,10 @@ describe('Stream', function () {
 			stream.push(value2)
 			stream.push(value3)
 			stream
-                .map(function () { calls.push(1) })
-                .filter(function () { calls.push(2); return true })
-                .map(function () { calls.push(3) })
-                .pipe(new Stream())
+				.map(function () { calls.push(1) })
+				.filter(function () { calls.push(2); return true })
+				.map(function () { calls.push(3) })
+				.pipe(new Stream())
 
 			expect(calls).toEqual([1, 2, 3, 1, 2, 3, 1, 2, 3])
 		})
@@ -807,10 +807,10 @@ describe('Stream', function () {
 			var calls = []
 			stream = new Stream(3)
 			stream
-                .pipe(new Stream())
-                .map(function () { calls.push(1) })
-                .filter(function () { calls.push(2); return true })
-                .forEach(function () { calls.push(3) })
+				.pipe(new Stream())
+				.map(function () { calls.push(1) })
+				.filter(function () { calls.push(2); return true })
+				.forEach(function () { calls.push(3) })
 			stream.push(value1)
 			stream.push(value2)
 			stream.push(value3)
@@ -824,10 +824,10 @@ describe('Stream', function () {
 			stream.push(value2)
 			stream.push(value3)
 			stream
-                .pipe(new Stream(2))
-                .map(function () { calls.push(1) })
-                .filter(function () { calls.push(2); return true })
-                .forEach(function () { calls.push(3) })
+				.pipe(new Stream(2))
+				.map(function () { calls.push(1) })
+				.filter(function () { calls.push(2); return true })
+				.forEach(function () { calls.push(3) })
 
 			expect(calls).toEqual([1, 2, 3, 1, 2, 3])
 		})

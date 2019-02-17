@@ -47,7 +47,7 @@ module.exports = inherit(List, {
 			while (++i in arguments) {
 				this.push(arguments[i])
 			}
-			return
+			return this
 		}
 		this._inheritedPush(value)
 		tail = this.tail
@@ -55,6 +55,7 @@ module.exports = inherit(List, {
 			this.shift()
 		}
 		this.publish(tail)
+		return this
 	},
 	subscription: function (item) {
 		this.push(item.value)
@@ -86,6 +87,7 @@ module.exports = inherit(List, {
 		if (!subscribers.length && hasSubscriber) {
 			this.onclose()
 		}
+		return this
 	},
 	publish: function (item) {
 		var subscribers = this.subscribers
