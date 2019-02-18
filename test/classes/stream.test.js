@@ -57,27 +57,27 @@ describe('Stream', function () {
 
 	describe('initialization', function () {
 		it('has no buffer by default', function () {
-			expect(unlimitedStream.bufferLength).toEqual(0)
+			expect(unlimitedStream.size).toEqual(0)
 		})
 		it('is lazy by default', function () {
 			expect(unlimitedStream.onopen).not.toHaveBeenCalled()
 			expect(unlimitedStream.onclose).not.toHaveBeenCalled()
 		})
-		it('can be performed with a predefined length', function () {
-			var length = 5
-			var stream = new Stream(length)
-			expect(stream.bufferLength).toEqual(length)
+		it('can be performed with a predefined size', function () {
+			var size = 5
+			var stream = new Stream(size)
+			expect(stream.size).toEqual(size)
 		})
-		it('can be performed with an invalid length', function () {
+		it('can be performed with an invalid size', function () {
 			var stream = new Stream(null)
-			expect(stream.bufferLength).toEqual(0)
+			expect(stream.size).toEqual(0)
 		})
-		it('can be performed with a negative length', function () {
+		it('can be performed with a negative size', function () {
 			var stream = new Stream(-5)
-			expect(stream.bufferLength).toEqual(0)
+			expect(stream.size).toEqual(0)
 		})
-		it('can be performed with an Infinite length', function () {
-			expect(infiniteStream.bufferLength).toBe(Infinity)
+		it('can be performed with an Infinite size', function () {
+			expect(infiniteStream.size).toBe(Infinity)
 		})
 	})
 
@@ -222,7 +222,7 @@ describe('Stream', function () {
 		})
 		it('inherits the max length', function () {
 			eachStream = limitedStream.forEach(callback2)
-			expect(eachStream.bufferLength).toEqual(limitedStream.bufferLength)
+			expect(eachStream.size).toEqual(limitedStream.size)
 		})
 		it('callback is iterated only ones', function () {
 			unlimitedStream.push(value1)
@@ -263,7 +263,7 @@ describe('Stream', function () {
 			expect(bufferedStream.head.next.value).toEqual(3)
 			expect(bufferedStream.head.next.next).toBeNull()
 		})
-		it('limits a length', function () {
+		it('limits the length', function () {
 			bufferedStream.subscribe(new Stream())
 			unlimitedStream.push(1)
 			unlimitedStream.push(2)
@@ -311,7 +311,7 @@ describe('Stream', function () {
 		})
 		it('inherits the max length', function () {
 			mappedStream = limitedStream.map(callback2)
-			expect(mappedStream.bufferLength).toEqual(limitedStream.bufferLength)
+			expect(mappedStream.size).toEqual(limitedStream.size)
 		})
 		it('callback is iterated only ones', function () {
 			unlimitedStream.push(value1)
@@ -367,7 +367,7 @@ describe('Stream', function () {
 		})
 		it('inherits the max length', function () {
 			filteredStream = limitedStream.filter(callback2)
-			expect(filteredStream.bufferLength).toEqual(limitedStream.bufferLength)
+			expect(filteredStream.size).toEqual(limitedStream.size)
 		})
 		it('callback is iterated only ones', function () {
 			unlimitedStream.push(value1)
@@ -425,7 +425,7 @@ describe('Stream', function () {
 					expect(reducedStream.head.next.next.value).toEqual(10)
 				})
 				it('resets the max length', function () {
-					expect(reducedStream.bufferLength).toEqual(0)
+					expect(reducedStream.size).toEqual(0)
 				})
 				it('callback is iterated only ones', function () {
 					reducedStream.subscribe(new Stream())
@@ -466,7 +466,7 @@ describe('Stream', function () {
 					expect(reducedStream.head.next.next.value).toEqual(106)
 				})
 				it('resets the max length', function () {
-					expect(reducedStream.bufferLength).toEqual(0)
+					expect(reducedStream.size).toEqual(0)
 				})
 				it('callback is iterated only ones', function () {
 					reducedStream.subscribe(new Stream())
@@ -505,7 +505,7 @@ describe('Stream', function () {
 					expect(reducedStream.head.next.next.value).toEqual(10)
 				})
 				it('resets the max length', function () {
-					expect(reducedStream.bufferLength).toEqual(0)
+					expect(reducedStream.size).toEqual(0)
 				})
 				it('callback is iterated only ones', function () {
 					reducedStream.subscribe(new Stream())
@@ -546,7 +546,7 @@ describe('Stream', function () {
 					expect(reducedStream.head.next.next.value).toEqual(106)
 				})
 				it('resets the max length', function () {
-					expect(reducedStream.bufferLength).toEqual(0)
+					expect(reducedStream.size).toEqual(0)
 				})
 				it('callback is iterated only ones', function () {
 					reducedStream.subscribe(new Stream())
@@ -606,7 +606,7 @@ describe('Stream', function () {
 				})
 				it('resets the max length', function () {
 					reducedStream = limitedStream.reduce(callback3)
-					expect(reducedStream.bufferLength).toEqual(0)
+					expect(reducedStream.size).toEqual(0)
 				})
 				it('callback is iterated only ones', function () {
 					reducedStream.subscribe(new Stream())
@@ -651,7 +651,7 @@ describe('Stream', function () {
 					expect(reducedStream.head.next.value).toEqual(103)
 					expect(reducedStream.head.next.next.value).toEqual(106)
 				})
-				it('is performed on an 1 item length streams', function () {
+				it('is performed on an 1 item size streams', function () {
 					var stream = new Stream(1)
 					stream.push(1)
 					stream.reduce(callback3, 100).subscribe(new Stream())
@@ -659,7 +659,7 @@ describe('Stream', function () {
 				})
 				it('resets the max length', function () {
 					reducedStream = limitedStream.reduce(callback3, 100)
-					expect(reducedStream.bufferLength).toEqual(0)
+					expect(reducedStream.size).toEqual(0)
 				})
 				it('callback is iterated only ones', function () {
 					reducedStream.subscribe(new Stream())
@@ -740,7 +740,7 @@ describe('Stream', function () {
 			expect(mergedStream.head.next.value).toEqual(value2)
 		})
 		it('sums max lengths', function () {
-			expect(mergedStream.bufferLength).toEqual(limitedStream.bufferLength + additionalStream.bufferLength)
+			expect(mergedStream.size).toEqual(limitedStream.size + additionalStream.size)
 		})
 		it('throws an error if invalid stream passed', function () {
 			expect(function () {

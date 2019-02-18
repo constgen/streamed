@@ -6,9 +6,9 @@ var inherit = require('../utils/inherit')
 module.exports = inherit(Stream, {
 	constructor: function EachStream(origin, callback) {
 		var stream = this
-		var length = origin.bufferLength
+		var size = origin.size
 
-		Stream.call(stream, length)
+		Stream.call(stream, size)
 		this.callback = callback
 		origin.iterate(function (item) {
 			stream.subscription(item)

@@ -5,11 +5,11 @@ var inherit = require('../utils/inherit')
 
 module.exports = inherit(Stream, {
 	constructor: function FilterStream(origin, callback) {
-		var length = origin.bufferLength
+		var size = origin.size
 
 		this.callback = callback
 		this.origin = origin
-		Stream.call(this, length)
+		Stream.call(this, size)
 	},
 	onopen: function () {
 		var stream = this

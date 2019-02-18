@@ -2,7 +2,7 @@
 
 **Streamed** is an array-like stream. It has methods that are similar to Array ones. In many cases it can be used as a replacement of arrays but with additional reactive features. "Reactive" means you can define a chain ones and stream will process collected data and future data as it arrives in the same way.
 
-## Importin
+## Importing
 
 ## Basic usage
 
@@ -17,7 +17,7 @@ stream.push(4, 5, 6)
 
 outputs:
 
-```
+```txt
 1
 2
 3
@@ -26,10 +26,11 @@ outputs:
 6
 ```
 
-### Stream length
-The first and the only argument of the `Streamed` class is its length (like in Array). It defines how much data will be buffered:
+### Stream size
 
-- `new Streamed(Infinity)`: Infinite length. All data will be stored in the stream instance
+The first and the only argument of the `Streamed` class is its size (like in Array). It defines how much data will be buffered:
+
+- `new Streamed(Infinity)`: Infinite size. All data will be stored in the stream instance
 - `new Streamed({Number})`: Only last items of a given number will be saved. Old items will be destroyed.
 - `new Streamed()`: No items will be buffered. Any data will be passed down to the stream but will not be stored in the instance.
 
@@ -50,6 +51,7 @@ var stream = new Streamed(4)
 stream.push(1, 2, 3, 4, 5, 6)
 stream.forEach(console.log) // logs: 3, 4, 5, 6
 ```
+
 **Empty:**
 
 ```js
@@ -70,6 +72,10 @@ geoPositions.forEach(console.log) //logs: {long: 12.7879993, lat: 35.778993} - o
 ```
 
 ## Chain methods
+
+### .push(value:Any)
+
+Passes the next value to a stream. If no argument is provided nothing is pushed. Returns a current stream.
 
 ### .forEach(callback:Function)
 
@@ -113,7 +119,7 @@ stream.push(1, 'str', undefined, {})
 
 _Output:_
 
-```
+```txt
 NUMBER
 STRING
 UNDEFINED
@@ -147,16 +153,16 @@ stream.push(-1, 0, 'str', undefined, {}, 10, Infinity)
 
 _Output:_
 
-```
+```js
 10
 Infinity
 ```
-### .buffer(length:Number)
+
+### .buffer(size:Number)
 
 ### .reduce(callback:Function, initialValue)
 
 ### .merge(stream:Streamed)
-
 
 ### .pipe(stream:Streamed)
 
@@ -182,8 +188,8 @@ stream = undefined // delete refere
 Inheritance usually is used to provide a custom stream source. This may be UI input events, global events, server-sent events, etc. This example shows how to create a custom stream class of mouse moves in a browser:
 
 ```js
-function MouseMoves(length){
-   Streamed.call(this, length)
+function MouseMoves(size){
+   Streamed.call(this, size)
    window.addEventListener('mousemove', this, false)
 }
 MouseMoves.prototype = Object.create(Streamed.prototype)

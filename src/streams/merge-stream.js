@@ -5,11 +5,11 @@ var inherit = require('../utils/inherit')
 
 module.exports = inherit(Stream, {
 	constructor: function MergeStream(originA, originB) {
-		var length = originA.bufferLength + originB.bufferLength
+		var size = originA.size + originB.size
 
 		this.originA = originA
 		this.originB = originB
-		Stream.call(this, length)
+		Stream.call(this, size)
 	},
 	onopen: function () {
 		var stream = this

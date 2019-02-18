@@ -25,7 +25,7 @@ function isNotInstanceOfStream(value) {
 }
 
 module.exports = inherit(List, {
-	constructor: function Stream(bufferLength) {
+	constructor: function Stream(size) {
 		// to avoid a circular dependency
 		EachStream = EachStream || require('../streams/each-stream')
 		MapStream = MapStream || require('../streams/map-stream')
@@ -34,7 +34,7 @@ module.exports = inherit(List, {
 		ReduceStream = ReduceStream || require('../streams/reduce-stream')
 		MergeStream = MergeStream || require('../streams/merge-stream')
 		List.call(this)
-		this.bufferLength = toNaturalNumber(bufferLength)
+		this.size = toNaturalNumber(size)
 		this.subscribers = []
 	},
 	onopen: noop,
@@ -51,7 +51,7 @@ module.exports = inherit(List, {
 		}
 		this._inheritedPush(value)
 		tail = this.tail
-		if (this.length > this.bufferLength) {
+		if (this.length > this.size) {
 			this.shift()
 		}
 		this.publish(tail)
@@ -98,8 +98,8 @@ module.exports = inherit(List, {
 			subscribers[index].subscription(item)
 		}
 	},
-	buffer: function (length) {
-		return new BufferStream(this, length)
+	buffer: function (size) {
+		return new BufferStream(this, size)
 	},
 	map: function (callback) {
 		if (isNotFunction(callback)) {

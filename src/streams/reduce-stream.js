@@ -25,7 +25,7 @@ module.exports = inherit(Stream, {
 		var accumulator = this.value
 
 		// optimization for unlimited stream
-		if (!this.origin.bufferLength || this.origin.bufferLength  === Infinity) {
+		if (!this.origin.size || this.origin.size === Infinity) {
 			if (accumulator === empty) {
 				accumulator = item.value
 			}
