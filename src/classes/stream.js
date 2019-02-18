@@ -68,6 +68,7 @@ module.exports = inherit(List, {
 		if (hadNoSubscribers) {
 			this.onopen()
 		}
+		return this
 	},
 	unsubscribe: function (subscriber) {
 		var index

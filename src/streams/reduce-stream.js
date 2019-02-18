@@ -2,11 +2,12 @@
 
 var Stream = require('../classes/stream')
 var inherit = require('../utils/inherit')
+var empty = {}
 
 module.exports = inherit(Stream, {
 	constructor: function ReduceStream(origin, callback, initialValue) {
 		this.callback = callback
-		this.initialValue = initialValue
+		this.value = (initialValue === undefined) ? empty : initialValue
 		this.origin = origin
 		Stream.call(this)
 	},
@@ -20,21 +21,32 @@ module.exports = inherit(Stream, {
 	onclose: function () {
 		this.origin.unsubscribe(this)
 	},
-	subscription: function () {
-		var empty = {}
-		var accumulator = (this.initialValue === undefined) ? empty : this.initialValue
-		var item
+	subscription: function (item) {
+		var accumulator = this.value
 
-		item = this.origin.head
-		while (item) {
-			if (accumulator !== empty) {
-				accumulator = this.callback(accumulator, item.value)
-			}
-			else {
+		// optimization for unlimited stream
+		if (!this.origin.bufferLength || this.origin.bufferLength  === Infinity) {
+			if (accumulator === empty) {
 				accumulator = item.value
 			}
-			item = item.next
+			else {
+				accumulator = this.callback(accumulator, item.value)
+			}
+			this.value = accumulator
+			this.push(accumulator)
 		}
-		this.push(accumulator)
+		else {
+			item = this.origin.head
+			while (item) {
+				if (accumulator === empty) {
+					accumulator = item.value
+				}
+				else {
+					accumulator = this.callback(accumulator, item.value)
+				}
+				item = item.next
+			}
+			this.push(accumulator)
+		}
 	}
 })
