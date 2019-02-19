@@ -14,14 +14,14 @@ module.exports = inherit(Stream, {
 	onopen: function () {
 		var stream = this
 		this.origin.iterate(function (item) {
-			stream.subscription(item)
+			stream.write(item)
 		})
 		this.origin.subscribe(this)
 	},
 	onclose: function () {
 		this.origin.unsubscribe(this)
 	},
-	subscription: function (item) {
+	write: function (item) {
 		var result = this.callback(item.value)
 		if (result) {
 			this.push(item.value)

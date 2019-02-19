@@ -117,9 +117,9 @@ describe('Stream', function () {
 
 	describe('publishing', function () {
 		beforeEach(function () {
-			unlimitedStream.subscribe({ subscription: callback1 })
-			unlimitedStream.subscribe({ subscription: callback2 })
-			unlimitedStream.subscribe({ subscription: callback3 })
+			unlimitedStream.subscribe({ write: callback1 })
+			unlimitedStream.subscribe({ write: callback2 })
+			unlimitedStream.subscribe({ write: callback3 })
 		})
 
 		it('calls subscribers', function () {

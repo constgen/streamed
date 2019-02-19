@@ -57,7 +57,7 @@ module.exports = inherit(List, {
 		this.publish(tail)
 		return this
 	},
-	subscription: function (item) {
+	write: function (item) {
 		this.push(item.value)
 	},
 	subscribe: function (subscriber) {
@@ -95,7 +95,7 @@ module.exports = inherit(List, {
 		var index = -1
 
 		while (++index in subscribers) {
-			subscribers[index].subscription(item)
+			subscribers[index].write(item)
 		}
 	},
 	buffer: function (size) {
@@ -136,7 +136,7 @@ module.exports = inherit(List, {
 			throw notStreamError(stream)
 		}
 		this.iterate(function (item) {
-			stream.subscription(item)
+			stream.write(item)
 		})
 		this.subscribe(stream)
 		return stream

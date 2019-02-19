@@ -11,11 +11,11 @@ module.exports = inherit(Stream, {
 		Stream.call(stream, size)
 		this.callback = callback
 		origin.iterate(function (item) {
-			stream.subscription(item)
+			stream.write(item)
 		})
 		origin.subscribe(this)
 	},
-	subscription: function (item) {
+	write: function (item) {
 		this.callback(item.value)
 		this.push(item.value)
 	}

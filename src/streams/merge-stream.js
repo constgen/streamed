@@ -14,7 +14,7 @@ module.exports = inherit(Stream, {
 	onopen: function () {
 		var stream = this
 		function handleItem(item) {
-			stream.subscription(item)
+			stream.write(item)
 		}
 		this.originA.iterate(handleItem)
 		this.originB.iterate(handleItem)
@@ -25,7 +25,7 @@ module.exports = inherit(Stream, {
 		this.originA.unsubscribe(this)
 		this.originB.unsubscribe(this)
 	},
-	subscription: function (item) {
+	write: function (item) {
 		this.push(item.value)
 	}
 })
