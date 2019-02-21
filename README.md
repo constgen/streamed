@@ -1,5 +1,7 @@
 # Streamed
 
+[![Build Status](https://travis-ci.org/constgen/streamed.svg?branch=master)](https://travis-ci.org/constgen/streamed)
+
 **Streamed** is an array-like stream. It has methods that are similar to Array ones. In many cases it can be used as a replacement of arrays but with additional reactive features. "Reactive" means you can define a chain ones and stream will process collected data and future data as it arrives in the same way.
 
 ## Importing
@@ -179,8 +181,8 @@ function getType(value){
 }
 
 stream.map(getType) // attach mapped stream
-stream.unsubscribe() // destroy mapped stream an any other handlers
-stream = undefined // delete refere
+stream.unsubscribe() // destroy mapped stream and any other handlers
+stream = undefined // delete reference
 ```
 
 ## Inheritance
@@ -188,14 +190,14 @@ stream = undefined // delete refere
 Inheritance usually is used to provide a custom stream source. This may be UI input events, global events, server-sent events, etc. This example shows how to create a custom stream class of mouse moves in a browser:
 
 ```js
-function MouseMoves(size){
-   Streamed.call(this, size)
-   window.addEventListener('mousemove', this, false)
-}
-MouseMoves.prototype = Object.create(Streamed.prototype)
-MouseMoves.prototype.constructor = MouseMoves
-MouseMoves.prototype.handleEvent = function(event){
-   this.push(event)
+class MouseMoves extends Streamed {
+   constructor (size) {
+      super(size)
+      window.addEventListener('mousemove', this, false)
+   }
+   handleEvent (event) {
+      this.push(event)
+   }
 }
 
 
@@ -206,3 +208,7 @@ mouseMoves.forEach(console.log)
 ## Lazy evaluation
 
 ## Cold and hot streams
+
+Состояние flowing или paused, Flow Control
+
+## Readable and Writable streams

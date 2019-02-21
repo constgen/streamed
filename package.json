@@ -26,6 +26,9 @@
 		"test": "neutrino test --verbose",
 		"lint": "neutrino lint"
 	},
+	"publishConfig": {
+		"access": "public"
+	},
 	"files": [
 		"src/*",
 		"dist/*",
