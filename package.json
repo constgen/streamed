@@ -1,7 +1,7 @@
 {
 	"name": "streamed",
 	"description": "Array-like stream",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"license": "MIT",
 	"author": "Constantine Genchevsky <const.gen@gmail.com>",
 	"main": "dist/streamed.js",
