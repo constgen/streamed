@@ -1,7 +1,7 @@
 {
 	"name": "streamed",
 	"description": "Array-like stream",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"license": "MIT",
 	"author": "Constantine Genchevsky <const.gen@gmail.com>",
 	"main": "dist/streamed.js",
@@ -13,7 +13,7 @@
 	"keywords": [
 		"stream"
 	],
-	"dependencies": {	},
+	"dependencies": {},
 	"devDependencies": {
 		"neutrino": "8.1.2",
 		"neutrino-preset-umd": "0.3.0",
